@@ -1,2 +1,2 @@
-# mr-teacher
-unity game prototype
+# Mr. Teacher
+Game prototype made with Unity
