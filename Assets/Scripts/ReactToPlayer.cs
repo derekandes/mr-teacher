@@ -10,7 +10,7 @@ public class ReactToPlayer : MonoBehaviour
     public bool listen = false;
 
     //OBJECT MANAGER
-    private ObjectManager objects;
+    private ObjectManager objectManager;
 
     void Awake ()
     {
@@ -18,7 +18,7 @@ public class ReactToPlayer : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
         //GET OBJECT MANAGER
-        objects = gameObject.GetComponent<ObjectManager>();
+        objectManager = gameObject.GetComponent<ObjectManager>();
     }
 
 	void Update ()
@@ -38,17 +38,17 @@ public class ReactToPlayer : MonoBehaviour
         if (Input.GetButtonDown("A"))
         {
             //CHECK IF HOLDING AN OBJECT
-            if (objects.hasObject)
+            if (objectManager.HoldingObject())
             {
                 //IF SO, GIVE IT TO THE PLAYER
                 Debug.Log("I'm holding something!");
-                objects.GiveObjectToPlayer();
+                objectManager.GiveObjectToPlayer();
             }
             else
             {
                 //ELSE, CHECK IF PLAYER HAS AN OBJECT
                 Debug.Log("I'm not holding anything!");
-                objects.TakeObjectFromPlayer();
+                objectManager.TakeObjectFromPlayer();
             }
         }
 

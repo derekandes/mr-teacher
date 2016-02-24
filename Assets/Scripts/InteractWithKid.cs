@@ -23,7 +23,7 @@ public class InteractWithKid : MonoBehaviour
 	void Update ()
 	{
         //GET CLOSEST KID AND CHECK IF LISTENING
-        kids = GameObject.FindGameObjectsWithTag("Kid");    // UPDATES EVERY FRAME BECAUSE OBJECTS BEHAVE LIKE KIDS (USE KID TAG) BUT ARE DESTROYED WHEN PICKED UP.
+        kids = GameObject.FindGameObjectsWithTag("Kid"); //UPDATES EVERY FRAME BECAUSE OBJECTS BEHAVE LIKE KIDS (USE KID TAG) BUT ARE DESTROYED WHEN PICKED UP.
         closestKid = GetClosestKid(kids);
         listener = closestKid.gameObject.GetComponent<ReactToPlayer>();
 

@@ -1,79 +1,81 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[ExecuteInEditMode]
 public class ObjectManager : MonoBehaviour
 {
-    //FOR PLAYER TO CHECK
-    public bool hasObject = false;
-
     //FOR STANDALONE OBJECTS
     public bool isObject = false;
 
     //PLAYER REFERENCES
     private Transform player;
-    private ObjectManager playerObjects;
+    private ObjectManager playerObjectManager;
 
     //OBJECTS HELD
-    public bool umbrella = false;
-    public bool raincoat = false;
-
-    //OBJECT SPRITES
-    private SpriteRenderer umbrellaSprite;
-    private SpriteRenderer raincoatSprite;
+    public Transform objects; //PARENT TRANSFORM OF OBJECT SPRITES
+    public string[] objectNames = { "umbrella", "raincoat" }; //THIS SHOULD DICTATE THE ORDER OF OBJECTS HELD BY PLAYER/KIDS
+    public bool[] objectsHeld; //BOOL ARRAY USED TOGGLE ON/OFF VISIBILITY OF OBJECTS
 
     void Awake ()
     {
         //GET PLAYER REFERENCES
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        playerObjects = player.GetComponent<ObjectManager>();
+        playerObjectManager = player.GetComponent<ObjectManager>();
 
-        //GET OBJECT SPRITES
-        umbrellaSprite = transform.Find("Objects/Umbrella").gameObject.GetComponent<SpriteRenderer>();
-        raincoatSprite = transform.Find("Objects/Raincoat").gameObject.GetComponent<SpriteRenderer>();
+        //GET OBJECTS REFERENCE
+        objects = transform.Find("Objects");
+
+        //INIT ARRAY FOR HELD OBJECTS
+        objectsHeld = new bool[objectNames.Length];
     }
 
 	void Update ()
 	{
         //SET OBJECT VISABILITY
-        umbrellaSprite.enabled = umbrella;
-        raincoatSprite.enabled = raincoat;
-
-        //SET IF HOLDING AN OBJECT
-        hasObject = umbrella || raincoat;
+        SetObjectVisibility();
 	}
+
+    private void SetObjectVisibility()
+    {
+        //SET SPRITE VISIBILITY FOR EACH OBJECT HELD
+        SpriteRenderer objectSprite;
+
+        for (int i = 0; i < objectsHeld.Length; i++)
+        {
+            objectSprite = objects.GetChild(i).gameObject.GetComponent<SpriteRenderer>();
+            objectSprite.enabled = objectsHeld[i];
+        }
+    }
+
+    public bool HoldingObject()
+    {
+        //RETURN TRUE IF HOLDING AN OBJECT
+        foreach (bool b in objectsHeld)
+        {
+            if (b) return true;
+        }
+        return false;
+    }
 
     //INVOKED BY KID
     public void GiveObjectToPlayer()
     {
-        //IF HOLDING AN OBJECT PLAYER IS NOT, GIVE IT TO PLAYER
-        if (umbrella)
+        for (int i = 0; i < objectsHeld.Length; i++)
         {
-            if (!playerObjects.umbrella)
+            //IF HOLDING AN OBJECT PLAYER IS NOT, GIVE IT TO PLAYER
+            if (objectsHeld[i])
             {
-                playerObjects.umbrella = umbrella;
-                umbrella = !umbrella;
-                Debug.Log("I'm giving it to the player!");
+                if (!playerObjectManager.objectsHeld[i])
+                {
+                    playerObjectManager.objectsHeld[i] = objectsHeld[i];
+                    objectsHeld[i] = !objectsHeld[i];
+                    Debug.Log("I'm giving it to the player!");
 
-                //IF OBJECT (NOT KID), DESTROY
-                if (isObject) Destroy(gameObject); else return;
+                    //IF OBJECT (NOT KID), DESTROY
+                    if (isObject) Destroy(gameObject); else return;
+                }
+                else Debug.Log("You already have it!");
             }
-            //ELSE, PLAYER ALREADY HAS HELD OBJECTS
-            else Debug.Log("You already have it!");
-        }
-
-        if (raincoat)
-        {
-            if (!playerObjects.raincoat)
-            {
-                playerObjects.raincoat = raincoat;
-                raincoat = !raincoat;
-                Debug.Log("I'm giving it to the player!");
-
-                //IF OBJECT (NOT KID), DESTROY
-                if (isObject) Destroy(gameObject); else return;
-            }
-            //ELSE, PLAYER ALREADY HAS HELD OBJECTS
-            else Debug.Log("You already have it!");
         }
     }
 
@@ -81,46 +83,34 @@ public class ObjectManager : MonoBehaviour
     public void TakeObjectFromPlayer()
     {
         //TAKE AN OBJECT IF PLAYER IS HOLDING IT
-        if (playerObjects.umbrella)
+        for (int i = 0; i < playerObjectManager.objectsHeld.Length; i++)
         {
-            umbrella = playerObjects.umbrella;
-            playerObjects.umbrella = !playerObjects.umbrella;
-            Debug.Log("I'm taking this object!");
+            if (playerObjectManager.objectsHeld[i])
+            {
+                objectsHeld[i] = playerObjectManager.objectsHeld[i];
+                playerObjectManager.objectsHeld[i] = !playerObjectManager.objectsHeld[i];
+                Debug.Log("I'm taking this object!");
+                return;
+            }
         }
-        else if (playerObjects.raincoat)
-        {
-            raincoat = playerObjects.raincoat;
-            playerObjects.raincoat = !playerObjects.raincoat;
-            Debug.Log("I'm taking this object!");
-        }
-        else Debug.Log("You don't have anything to give me!");
+        Debug.Log("You don't have anything to give me!");
     }
 
     //INVOKED BY PLAYER
     public void PlayerDropObject()
     {
-        //IF HOLDING UMBRELLA, DROP IT AND RETURN
-        if (playerObjects.umbrella)
+        //IF HOLDING AN OBJECT, DROP IT AND RETURN
+        for (int i = 0; i < playerObjectManager.objectsHeld.Length; i++)
         {
-            //DROP UMBRELLA
-            GameObject instance = Instantiate(Resources.Load("Object"), transform.localPosition, Quaternion.identity) as GameObject;
-            ObjectManager instanceObject = instance.GetComponent<ObjectManager>();
-            instanceObject.umbrella = playerObjects.umbrella;
-            playerObjects.umbrella = !playerObjects.umbrella;
-            Debug.Log("Dropped umbrella!");
-            return;
-        }
-
-        //IF HOLDING UMBRELLA, DROP IT AND RETURN
-        if (playerObjects.raincoat)
-        {
-            //DROP RAINCOAT
-            GameObject instance = Instantiate(Resources.Load("Object"), transform.localPosition, Quaternion.identity) as GameObject;
-            ObjectManager instanceObject = instance.GetComponent<ObjectManager>();
-            instanceObject.raincoat = playerObjects.raincoat;
-            playerObjects.raincoat = !playerObjects.raincoat;
-            Debug.Log("Dropped raincoat!");
-            return;
+            if (playerObjectManager.objectsHeld[i])
+            {
+                GameObject instance = Instantiate(Resources.Load("Object"), transform.localPosition, Quaternion.identity) as GameObject;
+                ObjectManager instanceObjectManager = instance.GetComponent<ObjectManager>();
+                instanceObjectManager.objectsHeld[i] = playerObjectManager.objectsHeld[i];
+                playerObjectManager.objectsHeld[i] = !playerObjectManager.objectsHeld[i];
+                Debug.Log("Dropped object!");
+                return;
+            }
         }
     }
 }
