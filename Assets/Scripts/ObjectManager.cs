@@ -13,8 +13,8 @@ public class ObjectManager : MonoBehaviour
 
     //OBJECTS HELD
     public Transform objects; //PARENT TRANSFORM OF OBJECT SPRITES
-    public string[] objectNames = { "umbrella", "raincoat" }; //THIS SHOULD DICTATE THE ORDER OF OBJECTS HELD BY PLAYER/KIDS
-    public bool[] objectsHeld; //BOOL ARRAY USED TOGGLE ON/OFF VISIBILITY OF OBJECTS
+    public string[] objectNames = { "umbrella", "raincoat", "headphones" }; //THIS SHOULD DICTATE THE ORDER OF OBJECTS HELD BY PLAYER/KIDS
+    public bool[] objectsHeld = { false, false, false }; //USED TO TOGGLE VISIBILITY OF OBJECTS
 
     void Awake ()
     {
@@ -24,9 +24,6 @@ public class ObjectManager : MonoBehaviour
 
         //GET OBJECTS REFERENCE
         objects = transform.Find("Objects");
-
-        //INIT ARRAY FOR HELD OBJECTS
-        objectsHeld = new bool[objectNames.Length];
     }
 
 	void Update ()
