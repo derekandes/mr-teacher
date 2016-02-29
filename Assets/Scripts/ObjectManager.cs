@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[ExecuteInEditMode]
 public class ObjectManager : MonoBehaviour
 {
     //FOR STANDALONE OBJECTS
