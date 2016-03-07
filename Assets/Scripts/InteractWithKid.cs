@@ -8,6 +8,9 @@ public class InteractWithKid : MonoBehaviour
     public Transform closestKid;
     private ReactToPlayer listener = null;
 
+    //PLAYER HEAD REFERENCE
+    private PlayerHead playerHead;
+
     //FOR INTERACTING WITH PLAYER OBJECTS
     private ObjectManager playerObjectManager;
 
@@ -18,6 +21,9 @@ public class InteractWithKid : MonoBehaviour
 
         //GET PLAYER OBJECT MANAGER
         playerObjectManager = gameObject.GetComponent<ObjectManager>();
+
+        //GET PLAYER HEAD
+        playerHead = gameObject.GetComponentInChildren<PlayerHead>();
     }
      
 	void Update ()
@@ -26,6 +32,12 @@ public class InteractWithKid : MonoBehaviour
         kids = GameObject.FindGameObjectsWithTag("Kid"); //UPDATES EVERY FRAME BECAUSE OBJECTS BEHAVE LIKE KIDS (USE KID TAG) BUT ARE DESTROYED WHEN PICKED UP.
         closestKid = GetClosestKid(kids);
         listener = closestKid.gameObject.GetComponent<ReactToPlayer>();
+
+        //UPDATE ARRAY OF KIDS IN PLAYER HEAD
+        if (playerHead != null)
+        {
+            playerHead.kids = kids;
+        }
 
         //IF KID LISTENING, INTERACT WHEN ANY BUTTON IS PRESSED
         if (listener != null)
