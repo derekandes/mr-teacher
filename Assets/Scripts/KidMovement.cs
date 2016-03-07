@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Prime31.ZestKit;
 
 public class KidMovement : MonoBehaviour
 {
@@ -43,20 +44,11 @@ public class KidMovement : MonoBehaviour
         if (whereToMove.x <= GameManager.instance.leftBound) whereToMove.x = GameManager.instance.leftBound;
 
         moving = true;
-        PositionTweenProperty positionProperty = new PositionTweenProperty(whereToMove);
-        GoTweenConfig config = new GoTweenConfig();
-        config.addTweenProperty(positionProperty);
-        config.onComplete(t => StartCoroutine(Moved()));
-        GoTween tween = new GoTween(transform, 1f, config);
-        Go.addTween(tween);
-        
-    }
-
-    IEnumerator Moved()
-    {
-        moveDelay = Random.Range(.25f, 1.5f);
-        yield return new WaitForSeconds(moveDelay);
-        moving = false;
+        transform.ZKpositionTo(whereToMove, 1f)
+            .setDelay(Random.Range(.25f, 1.5f))
+            .setEaseType(EaseType.BackInOut)
+            .setCompletionHandler(t => moving = false)
+            .start();
     }
 
     //FLIP X SCALE
