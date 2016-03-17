@@ -31,7 +31,7 @@ public class PlayerHead : MonoBehaviour
         noScale = new Vector3(0.5f, 0.5f, 1f);
         big = new Vector3(1f, 0.95f, 1f);
         bigger = new Vector3(1.36f, 1.42f, 1f);
-        monster = new Vector3(2.3f, 2.64f, 1f);
+        monster = new Vector3(2.54f, 2.64f, 1f);
     }
 
 	void Update ()
@@ -72,8 +72,8 @@ public class PlayerHead : MonoBehaviour
         {
             case 0:
                 HeadScaleStep(); // SCALE HEAD ON RESET
-                headColor.ZKcolorTo(noTint, .25f)
-                    .setEaseType(EaseType.Linear)
+                headColor.ZKcolorTo(noTint, 1f)
+                    .setEaseType(EaseType.BackOut)
                     .start();
                 break;
             case 1:
@@ -116,17 +116,17 @@ public class PlayerHead : MonoBehaviour
                 break;
             case 1:
                 transform.ZKlocalScaleTo(big, 1f)
-                    .setEaseType(EaseType.BounceOut)
+                    .setEaseType(EaseType.ElasticOut)
                     .start();
                 break;
             case 2:
                 transform.ZKlocalScaleTo(bigger, 1f)
-                    .setEaseType(EaseType.BounceOut)
+                    .setEaseType(EaseType.ElasticOut)
                     .start();
                 break;
             case 3:
                 transform.ZKlocalScaleTo(monster, 1f)
-                    .setEaseType(EaseType.BounceOut)
+                    .setEaseType(EaseType.ElasticOut)
                     .start();
                 break;
             default:
