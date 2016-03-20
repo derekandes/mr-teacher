@@ -40,7 +40,7 @@ public class KidMovement : MonoBehaviour
         distToMove = new Vector3(x, y, 0f);
 
         //FLIP X SCALE IF NEEDED
-        if (distToMove.x >= 0)
+        if (distToMove.x < 0)
         {
             if (!facingRight) Flip();
         }

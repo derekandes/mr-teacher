@@ -4,7 +4,6 @@ using System.Collections;
 public class Feeling : MonoBehaviour
 {
     private ObjectManager objectManager;
-    private SpriteRenderer body;
 
     public bool happy = false;
     public bool likeRain = false;
@@ -12,7 +11,6 @@ public class Feeling : MonoBehaviour
     void Start()
     {
         objectManager = gameObject.GetComponent<ObjectManager>();
-        body = gameObject.GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -28,7 +26,5 @@ public class Feeling : MonoBehaviour
             
         }
 
-        //Set body to green for happy, pink for unhappy
-        body.color = happy ? new Color32(110, 231, 196, 255) : new Color32(231, 110, 143, 255);
     }
 }

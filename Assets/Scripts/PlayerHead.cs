@@ -28,10 +28,10 @@ public class PlayerHead : MonoBehaviour
         headColor = GetComponent<SpriteRenderer>();
 
         //SET SCALES
-        noScale = new Vector3(0.5f, 0.5f, 1f);
-        big = new Vector3(1f, 0.95f, 1f);
-        bigger = new Vector3(1.36f, 1.42f, 1f);
-        monster = new Vector3(2.54f, 2.64f, 1f);
+        noScale = new Vector3(.3f, .3f, 1f);
+        big = new Vector3(.7f, .7f, 1f);
+        bigger = new Vector3(1.2f, 1.2f, 1f);
+        monster = new Vector3(2f, 2f, 1f);
     }
 
 	void Update ()
