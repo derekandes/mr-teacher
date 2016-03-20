@@ -11,6 +11,11 @@ public class KidMovement : MonoBehaviour
     private Vector3 whereToMove;
     private float moveDelay;
 
+    void Start ()
+    {
+        DecideMovementDelay();
+    }
+
 	void Update ()
 	{
         if (!moving)
@@ -22,8 +27,16 @@ public class KidMovement : MonoBehaviour
     void Move()
     {
         //SET DISTANCE TO MOVE
-        float x = Random.Range(-3f, 3f);
-        float y = Random.Range(-3f, 3f);
+        float x = Random.Range(2f, 5f);
+        float y = Random.Range(2f, 5f);
+
+        //SET MOVEMENT TO EITHER POSITIVE OR NEGATIVE VALUE (COIN FLIP)
+        int moveCheck = Random.Range(1, 3);
+        if (moveCheck == 1) x = -x;
+
+        moveCheck = Random.Range(1, 3);
+        if (moveCheck == 1) y = -y;
+        
         distToMove = new Vector3(x, y, 0f);
 
         //FLIP X SCALE IF NEEDED
@@ -45,10 +58,27 @@ public class KidMovement : MonoBehaviour
 
         moving = true;
         transform.ZKpositionTo(whereToMove, 1f)
-            .setDelay(Random.Range(.25f, 1.5f))
-            .setEaseType(EaseType.BackInOut)
-            .setCompletionHandler(t => moving = false)
+            .setDelay(moveDelay)
+            .setEaseType(EaseType.Linear)
+            .setCompletionHandler(t => DecideMovementDelay())
             .start();
+    }
+
+    private void DecideMovementDelay()
+    {
+        //NOT MOVING
+        moving = false;
+
+        //SET MOVEMENT DELAY TO EITHER 0 OR RANDOM VALUE (1 OUT OF 3 = DELAY)
+        int delayCheck = Random.Range(1, 4);
+        if (delayCheck % 2 != 0)
+        {
+            moveDelay = 0;
+        }
+        else
+        {
+            moveDelay = Random.Range(.5f, 2.5f);
+        }
     }
 
     //FLIP X SCALE
