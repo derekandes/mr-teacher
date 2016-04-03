@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Prime31.ZestKit;
 
@@ -64,7 +64,7 @@ public class KidMovement : MonoBehaviour
             .start();
     }
 
-    private void DecideMovementDelay()
+    public void DecideMovementDelay()
     {
         //NOT MOVING
         moving = false;
