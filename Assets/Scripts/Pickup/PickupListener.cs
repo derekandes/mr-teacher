@@ -31,10 +31,12 @@ public class PickupListener : MonoBehaviour
 
     public void Interact()
     {
-        playerInventory.Pickup(id);
+        //if player inventory is full, return
+        if (playerInventory.slotId[3] != -1) return;
 
-        //need to check if being picked up before destorying
-        ZestKit.instance.stopAllTweensWithTarget(gameObject.transform); //stop tween on this transform
+        //else, have player pickup this id, stop tween on this transform, and destroy this object
+        playerInventory.Pickup(id);
+        ZestKit.instance.stopAllTweensWithTarget(gameObject.transform);
         Destroy(gameObject);
     }
 }

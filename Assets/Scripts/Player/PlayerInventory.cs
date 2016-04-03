@@ -102,8 +102,34 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    //remove object in slot 0, move other objects down a slot
+    public void Give()
+    {
+        //slot 0 = slot 1
+        slotId[0] = slotId[1];
+        SetSprite(slot0, slotId[0]);
+
+        //slot 1 = slot 2
+        slotId[1] = slotId[2];
+        SetSprite(slot1, slotId[1]);
+
+        //slot 2 = slot 3
+        slotId[2] = slotId[3];
+        SetSprite(slot2, slotId[2]);
+
+        //slot 3 = -1
+        slotId[3] = -1;
+        SetSprite(slot3, slotId[3]);
+    }
+
     void SetSprite(Transform slot, int id)
     {
+        if(id == -1)
+        {
+            ClearSprite(slot);
+            return;
+        }
+
         //get pickup from id
         foreach (Pickup pickup in PickupManager.instance.pickups)
         {
@@ -147,6 +173,8 @@ public class PlayerInventory : MonoBehaviour
 
         string name = "Prefabs/" + thisPickup.name;
         Rigidbody2D instance = Instantiate(Resources.Load(name, typeof(Rigidbody2D))) as Rigidbody2D;
+
+        //if pickup moves, disable movement
         KidMovement movement = instance.gameObject.GetComponent<KidMovement>();
         if (movement != null)
         {

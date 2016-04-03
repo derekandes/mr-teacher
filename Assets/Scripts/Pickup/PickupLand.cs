@@ -27,6 +27,8 @@ public class PickupLand : MonoBehaviour
 	    if (check && transform.position.y < (player.position.y + 1))
         {
             rb.isKinematic = true;
+
+            //if pickup moves, enable movement
             if (movement != null)
             {
                 movement.enabled = true;
