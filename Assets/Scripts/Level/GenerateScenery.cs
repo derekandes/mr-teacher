@@ -21,7 +21,6 @@ public class GenerateScenery : MonoBehaviour
             Vector3 pos = new Vector3(xPos, yPos, 0);
             GameObject instance = Instantiate(flower, pos, Quaternion.identity) as GameObject;
             instance.transform.parent = gameObject.transform;
-
         }
     }
 }

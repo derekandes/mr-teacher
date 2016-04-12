@@ -168,7 +168,7 @@ public class PlayerInventory : MonoBehaviour
         }
 
         float xForce = Random.Range(200, 400);
-        float yForce = Random.Range(600, 1500);
+        float yForce = Random.Range(1000, 1500);
         if (Random.Range(0, 2) == 1) xForce = -xForce;
 
         string name = "Prefabs/" + thisPickup.name;

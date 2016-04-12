@@ -4,16 +4,20 @@ using Prime31.ZestKit;
 
 public class KidMovement : MonoBehaviour
 {
-    private bool moving = false;
+    public bool moving = false;
     private bool facingRight = false;
 
     private Vector3 distToMove;
     private Vector3 whereToMove;
     private float moveDelay;
 
+    private Vector3 lastPos;
+    public bool anim = false;
+
     void Start ()
     {
         DecideMovementDelay();
+        lastPos = transform.position;
     }
 
 	void Update ()
@@ -22,6 +26,14 @@ public class KidMovement : MonoBehaviour
         {
             Move();
         }
+
+        if (transform.position != lastPos)
+        {
+            anim = true;
+        }
+        else anim = false;
+
+        lastPos = transform.position;
 	}
     
     void Move()

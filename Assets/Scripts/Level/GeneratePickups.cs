@@ -23,8 +23,7 @@ public class GeneratePickups : MonoBehaviour {
             float xPos = Random.Range(GameManager.instance.leftBound, GameManager.instance.rightBound);
             float yPos = Random.Range(GameManager.instance.downBound, GameManager.instance.upBound);
             Vector3 pos = new Vector3(xPos, yPos, 0);
-            GameObject instance = Instantiate(apple, pos, Quaternion.identity) as GameObject;
-            //instance.transform.parent = gameObject.transform;
+            Instantiate(apple, pos, Quaternion.identity);
         }
     }
 
@@ -35,8 +34,7 @@ public class GeneratePickups : MonoBehaviour {
             float xPos = Random.Range(GameManager.instance.leftBound, GameManager.instance.rightBound);
             float yPos = Random.Range(GameManager.instance.downBound, GameManager.instance.upBound);
             Vector3 pos = new Vector3(xPos, yPos, 0);
-            GameObject instance = Instantiate(mushroom, pos, Quaternion.identity) as GameObject;
-            //instance.transform.parent = gameObject.transform;
+            Instantiate(mushroom, pos, Quaternion.identity);
         }
     }
 
@@ -47,8 +45,7 @@ public class GeneratePickups : MonoBehaviour {
             float xPos = Random.Range(GameManager.instance.leftBound, GameManager.instance.rightBound);
             float yPos = Random.Range(GameManager.instance.downBound, GameManager.instance.upBound);
             Vector3 pos = new Vector3(xPos, yPos, 0);
-            GameObject instance = Instantiate(hedgehog, pos, Quaternion.identity) as GameObject;
-            //instance.transform.parent = gameObject.transform;
+            Instantiate(hedgehog, pos, Quaternion.identity);
         }
     }
 }

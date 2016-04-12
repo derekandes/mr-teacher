@@ -14,7 +14,7 @@ public class KidInventory : MonoBehaviour
 	void Awake ()
 	{
         wearableId = -1;
-        wearable = transform.Find("Wearable");
+        wearable = transform.Find("Character/Wearable");
         wearableSprite = wearable.GetComponent<SpriteRenderer>();
     }
 

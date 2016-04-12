@@ -21,8 +21,7 @@ public class GenerateKids : MonoBehaviour {
             float xPos = Random.Range(GameManager.instance.leftBound, GameManager.instance.rightBound);
             float yPos = Random.Range(GameManager.instance.downBound, GameManager.instance.upBound);
             Vector3 pos = new Vector3(xPos, yPos, 0);
-            GameObject instance = Instantiate(kid1, pos, Quaternion.identity) as GameObject;
-            //instance.transform.parent = gameObject.transform;
+            Instantiate(kid1, pos, Quaternion.identity);
         }
 
         for (int i = 0; i < numberOfKids2; i++)
@@ -30,8 +29,7 @@ public class GenerateKids : MonoBehaviour {
             float xPos = Random.Range(GameManager.instance.leftBound, GameManager.instance.rightBound);
             float yPos = Random.Range(GameManager.instance.downBound, GameManager.instance.upBound);
             Vector3 pos = new Vector3(xPos, yPos, 0);
-            GameObject instance = Instantiate(kid2, pos, Quaternion.identity) as GameObject;
-            //instance.transform.parent = gameObject.transform;
+            Instantiate(kid2, pos, Quaternion.identity);
         }
 
         for (int i = 0; i < numberOfKids3; i++)
@@ -39,8 +37,7 @@ public class GenerateKids : MonoBehaviour {
             float xPos = Random.Range(GameManager.instance.leftBound, GameManager.instance.rightBound);
             float yPos = Random.Range(GameManager.instance.downBound, GameManager.instance.upBound);
             Vector3 pos = new Vector3(xPos, yPos, 0);
-            GameObject instance = Instantiate(kid3, pos, Quaternion.identity) as GameObject;
-            //instance.transform.parent = gameObject.transform;
+            Instantiate(kid3, pos, Quaternion.identity);
         }
     }
 }
