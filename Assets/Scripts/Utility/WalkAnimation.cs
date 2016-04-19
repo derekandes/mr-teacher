@@ -62,6 +62,8 @@ public class WalkAnimation : MonoBehaviour
     {
         if (!kid)
         {
+            if (GameManager.instance.levelEnded) return false;
+
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 

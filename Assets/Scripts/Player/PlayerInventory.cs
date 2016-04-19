@@ -7,6 +7,8 @@ public class PlayerInventory : MonoBehaviour
     public int[] slotId = { -1, -1, -1, -1 };
     public Pickup thisPickup = null;
 
+    private bool levelEndToss = false;
+
 	void Awake ()
 	{
         slot0 = transform.Find("Inventory/Slot0");
@@ -17,33 +19,21 @@ public class PlayerInventory : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.instance.levelEnded)
+        {
+            if (!levelEndToss)
+            {
+                TossAll();
+                levelEndToss = true;
+            }
+
+            return;
+        }
+
         //when B is pressed, toss all pickups held and clear sprites
         if (Input.GetButtonDown("B"))
         {
-            if (slotId[0] != -1)
-            {
-                Toss(slot0, slotId[0]);
-                slotId[0] = -1;
-                ClearSprite(slot0);
-            }
-            if (slotId[1] != -1)
-            {
-                Toss(slot1, slotId[1]);
-                slotId[1] = -1;
-                ClearSprite(slot1);
-            }
-            if (slotId[2] != -1)
-            {
-                Toss(slot2, slotId[2]);
-                slotId[2] = -1;
-                ClearSprite(slot2);
-            }
-            if (slotId[3] != -1)
-            {
-                Toss(slot3, slotId[3]);
-                slotId[3] = -1;
-                ClearSprite(slot3);
-            }
+            TossAll();
         }
     }
 
@@ -154,6 +144,34 @@ public class PlayerInventory : MonoBehaviour
     {
         SpriteRenderer slotSprite = slot.GetComponent<SpriteRenderer>();
         slotSprite.sprite = null;
+    }
+
+    void TossAll()
+    {
+        if (slotId[0] != -1)
+        {
+            Toss(slot0, slotId[0]);
+            slotId[0] = -1;
+            ClearSprite(slot0);
+        }
+        if (slotId[1] != -1)
+        {
+            Toss(slot1, slotId[1]);
+            slotId[1] = -1;
+            ClearSprite(slot1);
+        }
+        if (slotId[2] != -1)
+        {
+            Toss(slot2, slotId[2]);
+            slotId[2] = -1;
+            ClearSprite(slot2);
+        }
+        if (slotId[3] != -1)
+        {
+            Toss(slot3, slotId[3]);
+            slotId[3] = -1;
+            ClearSprite(slot3);
+        }
     }
 
     void Toss(Transform slot, int id)

@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
 	void Update ()
     {
+        if (GameManager.instance.levelEnded) return;
+
         //GET INPUT AXIS
         float h = Input.GetAxis("Horizontal") * speed;
         float v = Input.GetAxis("Vertical") * speed;

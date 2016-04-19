@@ -35,7 +35,8 @@ public class KidInventory : MonoBehaviour
         //if pickup, set up wearable (add to inventory)
         if (thisPickup != null)
         {
-            Add(1); // add 1 to inventory
+            Add(thisPickup.id, 1); // add 1 to inventory
+
             wearableSprite.sprite = Resources.Load<Sprite>(thisPickup.wornSprite);
             wearable.localPosition = new Vector3(thisPickup.wornXPos, thisPickup.wornYPos, thisPickup.wornZPos);
             wearable.localScale = new Vector3(thisPickup.wornXScale, thisPickup.wornYScale, 1f);
@@ -43,8 +44,11 @@ public class KidInventory : MonoBehaviour
     }
 
     //add to inventory amount
-    public void Add(int amount)
+    public void Add(int id, int amount)
     {
         inventory += amount;
+        if (id == 0) GameManager.instance.apples += 1;
+        if (id == 1) GameManager.instance.mushrooms += 1;
+        if (id == 2) GameManager.instance.hedgehogs += 1;
     }
 }

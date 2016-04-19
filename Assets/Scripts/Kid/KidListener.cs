@@ -50,7 +50,7 @@ public class KidListener : MonoBehaviour
             {
                 Feedback();
                 //if so, add 1 to player inventory
-                kidInventory.Add(1);
+                kidInventory.Add(kidInventory.wearableId, 1);
 
                 //and remove object from player inventory (move other objects down a slot)
                 playerInventory.Give();

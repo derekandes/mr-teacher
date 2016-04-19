@@ -16,6 +16,8 @@ public class PlayerInteractions : MonoBehaviour
 
 	void Update ()
 	{
+        if (GameManager.instance.levelEnded) return;
+
         interactables = GameObject.FindGameObjectsWithTag("Interactable");
         closestInteractable = GetClosestInteractable(interactables);
 
