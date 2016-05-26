@@ -24,8 +24,13 @@ public class PickupLand : MonoBehaviour
 
 	void FixedUpdate ()
     {
+        // if out of bounds, don't land
+        if (GameManager.instance.OutOfBounds(transform.position)) return;
+
+        // if in bounds, land near player's feet
 	    if (check && transform.position.y < (player.position.y + 1))
         {
+            //land
             rb.isKinematic = true;
 
             //if pickup moves, enable movement
@@ -33,6 +38,9 @@ public class PickupLand : MonoBehaviour
             {
                 movement.enabled = true;
             }
+
+            //stop checking
+            check = false;
         }
 	}
 

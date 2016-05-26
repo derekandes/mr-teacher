@@ -6,12 +6,8 @@ public class DestroyOutOfBounds : MonoBehaviour
 {
 	void Update ()
     {
-	    if (transform.localPosition.x < GameManager.instance.leftBound)
-        {
-            ZestKit.instance.stopAllTweensWithTarget(gameObject.transform);
-            Destroy(gameObject);
-        }
-        if (transform.localPosition.x > GameManager.instance.rightBound)
+        //destroy if fallen below play area
+	    if (transform.localPosition.y < GameManager.instance.downBound - 5)
         {
             ZestKit.instance.stopAllTweensWithTarget(gameObject.transform);
             Destroy(gameObject);

@@ -68,4 +68,13 @@ public class GameManager : MonoBehaviour
     {
         levelEnded = true;
     }
+
+    public bool OutOfBounds(Vector3 pos)
+    {
+        if (pos.x < leftBound) return true;
+        else if (pos.x > rightBound) return true;
+        else if (pos.y > upBound) return true;
+        else if (pos.y < downBound) return true;
+        else return false;
+    }
 }

@@ -47,16 +47,21 @@ public class SneakyMushroom : MonoBehaviour
         int check = Random.Range(1, 100);
         if (check % 2 == 0)
         {
-            newPosition.x += 2;
+            newPosition.x += 3;
         }
-        else newPosition.x -= 2;
+        else newPosition.x -= 3;
 
         check = Random.Range(1, 100);
         if (check % 2 == 0)
         {
-            newPosition.y += 2;
+            newPosition.y += 3;
         }
-        else newPosition.y -= 2;
+        else newPosition.y -= 3;
+
+        //don't let mushroom go out of bounds
+        float yClamp = Mathf.Clamp(newPosition.y, GameManager.instance.downBound, GameManager.instance.upBound);
+        float xClamp = Mathf.Clamp(newPosition.x, GameManager.instance.leftBound, GameManager.instance.rightBound);
+        newPosition = new Vector3(xClamp, yClamp, transform.position.z);
 
         GameObject instance = Instantiate(Resources.Load("Prefabs/Mushroom")) as GameObject;
         instance.transform.position = newPosition;

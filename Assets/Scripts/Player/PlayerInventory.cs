@@ -4,21 +4,37 @@ using System.Collections;
 public class PlayerInventory : MonoBehaviour
 {
     public Transform slot0, slot1, slot2, slot3;
+    private SpriteRenderer rSlot0, rSlot1, rSlot2, rSlot3;
     public int[] slotId = { -1, -1, -1, -1 };
     public Pickup thisPickup = null;
+    public float stackOffset;
+    private Transform character;
 
     private bool levelEndToss = false;
 
 	void Awake ()
 	{
+        character = transform.Find("Character");
+
         slot0 = transform.Find("Inventory/Slot0");
         slot1 = transform.Find("Inventory/Slot1");
         slot2 = transform.Find("Inventory/Slot2");
         slot3 = transform.Find("Inventory/Slot3");
+
+        rSlot0 = slot0.GetComponent<SpriteRenderer>();
+        rSlot1 = slot1.GetComponent<SpriteRenderer>();
+        rSlot2 = slot2.GetComponent<SpriteRenderer>();
+        rSlot3 = slot3.GetComponent<SpriteRenderer>();
 	}
 
     void Update()
     {
+        //make inventory stack bounce with character
+        stackOffset = .02f + (character.localPosition.y / 1.5f);
+
+        //adjust inventory slot positions based on sprites being used
+        SetSlotTransforms();
+
         if (GameManager.instance.levelEnded)
         {
             if (!levelEndToss)
@@ -202,5 +218,38 @@ public class PlayerInventory : MonoBehaviour
         instance.isKinematic = false;
         instance.gameObject.transform.position = slot.position;
         instance.AddForce(new Vector2(xForce, yForce));
+    }
+
+    void SetSlotTransforms()
+    {
+        // grab current sprites
+        Sprite s0 = rSlot0.sprite;
+        Sprite s1 = rSlot1.sprite;
+        Sprite s2 = rSlot2.sprite;
+        Sprite s3 = rSlot3.sprite;
+
+        // if there something in s1, set slot1 position
+        if (s1 != null)
+        {
+            slot1.localPosition = new Vector3(slot1.localPosition.x,
+                slot0.localPosition.y + (((s0.bounds.extents.y * slot0.localScale.y) * 2)) + stackOffset,
+                slot1.localPosition.z);
+        }
+
+        // if there something in s2, set slot2 position
+        if (s2 != null)
+        {
+            slot2.localPosition = new Vector3(slot2.localPosition.x,
+                slot1.localPosition.y + (((s1.bounds.extents.y * slot1.localScale.y) * 2)) + stackOffset,
+                slot2.localPosition.z);
+        }
+
+        // if there something in s3, set slot3 position
+        if (s3 != null)
+        {
+            slot3.localPosition = new Vector3(slot3.localPosition.x,
+                slot2.localPosition.y + (((s2.bounds.extents.y * slot2.localScale.y) * 2)) + stackOffset,
+                slot3.localPosition.z);
+        }
     }
 }
