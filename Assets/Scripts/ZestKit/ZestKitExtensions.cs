@@ -538,19 +538,36 @@ namespace Prime31.ZestKit
 			return tween;
 		}
 
-		#endregion
 
-
-		#region ScrollRect tweens
-
-		/// <summary>
-		/// tweens the ScrollRects normalizedPosition (scroll position)
+        /// <summary>
+		/// tweens the RectTransforms sizeDelta property
 		/// </summary>
-		/// <returns>The knormalized position to.</returns>
+		/// <returns>The sizeDelta to.</returns>
 		/// <param name="self">Self.</param>
 		/// <param name="to">To.</param>
 		/// <param name="duration">Duration.</param>
-		public static ITween<Vector2> ZKnormalizedPositionTo( this ScrollRect self, Vector2 to, float duration = 0.3f )
+		public static ITween<Vector2> ZKsizeDeltaTo(this RectTransform self, Vector2 to, float duration = 0.3f)
+        {
+            var tweenTarget = new RectTransformSizeDeltaTarget(self);
+            var tween = Vector2Tween.create();
+            tween.initialize(tweenTarget, to, duration);
+
+            return tween;
+        }
+
+        #endregion
+
+
+        #region ScrollRect tweens
+
+        /// <summary>
+        /// tweens the ScrollRects normalizedPosition (scroll position)
+        /// </summary>
+        /// <returns>The knormalized position to.</returns>
+        /// <param name="self">Self.</param>
+        /// <param name="to">To.</param>
+        /// <param name="duration">Duration.</param>
+        public static ITween<Vector2> ZKnormalizedPositionTo( this ScrollRect self, Vector2 to, float duration = 0.3f )
 		{
 			var tweenTarget = new ScrollRectNormalizedPositionTarget( self );
 			var tween = Vector2Tween.create();
@@ -633,5 +650,40 @@ namespace Prime31.ZestKit
 
 		#endregion
 
+        #region Text tweens
+
+        /// <summary>
+        /// tweens a Text color property
+        /// </summary>
+        /// <param name="self">Self.</param>
+        /// <param name="to">To.</param>
+        /// <param name="duration">Duration.</param>
+        /// <returns></returns>
+	    public static ITween<Color> ZKcolorTo(this Text self, Color to, float duration = 0.3f)
+	    {
+	        var tweenTarget = new TextColorTarget(self);
+            var tween = ColorTween.create();
+            tween.initialize(tweenTarget, to, duration);
+
+            return tween;
+	    }
+
+        /// <summary>
+        /// tweens a Text color alpha property
+        /// </summary>
+        /// <param name="self">Self.</param>
+        /// <param name="to">To.</param>
+        /// <param name="duration">Duration.</param>
+        /// <returns></returns>
+	    public static ITween<float> ZKalphaTo(this Text self, float to, float duration = 0.3f)
+	    {
+            var tweenTarget = new TextAlphaTarget(self);
+            var tween = FloatTween.create();
+            tween.initialize(tweenTarget, to, duration);
+
+            return tween;
+	    }
+
+        #endregion
 	}
 }
