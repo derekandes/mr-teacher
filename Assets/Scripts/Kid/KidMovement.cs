@@ -80,17 +80,8 @@ public class KidMovement : MonoBehaviour
     {
         //NOT MOVING
         moving = false;
-
-        //SET MOVEMENT DELAY TO EITHER 0 OR RANDOM VALUE (1 OUT OF 3 = DELAY)
-        int delayCheck = Random.Range(1, 4);
-        if (delayCheck % 2 != 0)
-        {
-            moveDelay = 0;
-        }
-        else
-        {
-            moveDelay = Random.Range(.5f, 2.5f);
-        }
+        //SET DELAY
+        moveDelay = Random.Range(.1f, 2f);
     }
 
     //FLIP X SCALE

@@ -18,7 +18,7 @@ public class FaceSwap : MonoBehaviour
 
 	void Update ()
     {
-        if (walkAnim.walking)
+        if (walkAnim.isWalking)
         {
             face.sprite = movingFace;
         }

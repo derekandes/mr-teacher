@@ -6,9 +6,6 @@ public class PlayerMovement : MonoBehaviour
     //FOR MOVEMENT
     public float speed = 7f;
 
-    //FOR FLIPPING X SCALE
-    private bool facingRight = true;
-
 	void Update ()
     {
         if (GameManager.instance.levelEnded) return;

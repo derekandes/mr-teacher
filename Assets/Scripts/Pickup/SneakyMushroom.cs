@@ -41,7 +41,7 @@ public class SneakyMushroom : MonoBehaviour
     }
 
     void RespawnAndDestroy ()
-    {   //will need to clamp to bounds
+    {   
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, 0);
 
         int check = Random.Range(1, 100);
@@ -63,6 +63,8 @@ public class SneakyMushroom : MonoBehaviour
         float xClamp = Mathf.Clamp(newPosition.x, GameManager.instance.leftBound, GameManager.instance.rightBound);
         newPosition = new Vector3(xClamp, yClamp, transform.position.z);
 
+        //add code to allow kid to use behavior (kid wearing mushroom)
+        //prefab of each kid with an id, instantiate same id wearing mushroom
         GameObject instance = Instantiate(Resources.Load("Prefabs/Mushroom")) as GameObject;
         instance.transform.position = newPosition;
         Destroy(gameObject);

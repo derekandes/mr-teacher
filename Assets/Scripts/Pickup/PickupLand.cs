@@ -7,8 +7,9 @@ public class PickupLand : MonoBehaviour
     private Transform player;
     private KidMovement movement = null;
 
-    private bool check = false;
-    private float checkDelay = .5f;
+    private bool doCheck = false;
+    private float checkDelay = .25f;
+    public bool onGround = true;
 
     void Awake ()
     {
@@ -27,26 +28,31 @@ public class PickupLand : MonoBehaviour
         // if out of bounds, don't land
         if (GameManager.instance.OutOfBounds(transform.position)) return;
 
-        // if in bounds, land near player's feet
-	    if (check && transform.position.y < (player.position.y + 1))
+        //if pickup moves, enable movement
+        if (onGround && movement != null)
         {
-            //land
+            movement.enabled = true;
+        }
+
+        // if in bounds, land near player's feet
+        if (doCheck && transform.position.y < (player.position.y + 1))
+        {
             rb.isKinematic = true;
+            rb.simulated = false;
+            onGround = true;
 
-            //if pickup moves, enable movement
-            if (movement != null)
-            {
-                movement.enabled = true;
-            }
-
-            //stop checking
-            check = false;
+            //stop checking if should land
+            doCheck = false;
         }
 	}
 
     IEnumerator Delay ()
     {
         yield return new WaitForSeconds(checkDelay);
-        check = true;
+        if (!onGround)
+        {
+            // if not on ground, check if should land
+            doCheck = true;
+        }
     }
 }

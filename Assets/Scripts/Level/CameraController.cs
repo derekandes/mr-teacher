@@ -10,11 +10,11 @@ public class CameraController : MonoBehaviour
 	void Update ()
     {
         float xTarget = trackingTarget.position.x + xOffset;
-        float yTarget = trackingTarget.position.y + yOffset;
+        //float yTarget = trackingTarget.position.y + yOffset;
 
         float xNew = Mathf.Lerp(transform.position.x, xTarget, Time.deltaTime * followSpeed);
-        float yNew = Mathf.Lerp(transform.position.y, yTarget, Time.deltaTime * followSpeed);
+        //float yNew = Mathf.Lerp(transform.position.y, yTarget, Time.deltaTime * followSpeed);
 
-        transform.position = new Vector3(xNew, yNew, transform.position.z);
+        transform.position = new Vector3(xNew, transform.position.y, transform.position.z);
 	}
 }

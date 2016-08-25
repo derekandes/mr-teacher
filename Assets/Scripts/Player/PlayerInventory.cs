@@ -216,6 +216,8 @@ public class PlayerInventory : MonoBehaviour
         }
 
         instance.isKinematic = false;
+        instance.simulated = true;
+        instance.gameObject.GetComponent<PickupLand>().onGround = false;
         instance.gameObject.transform.position = slot.position;
         instance.AddForce(new Vector2(xForce, yForce));
     }

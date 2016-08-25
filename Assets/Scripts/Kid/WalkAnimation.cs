@@ -6,13 +6,13 @@ public class WalkAnimation : MonoBehaviour
 {
     private Vector3 startPos;
 
-    public bool noRotation = false;
-
 	public float amplitude = 2f;
 	public float period = .2f;
 
-	public bool walking = false;
-	private float walkTime = 0f;
+    public bool noRotation = false;
+    public bool isWalking = false;
+    public bool alwaysOn = false;
+    private float walkTime = 0f;
 
     public bool kid = false;
     private KidMovement kidMovement = null;
@@ -26,21 +26,17 @@ public class WalkAnimation : MonoBehaviour
 	
 	void Update()
 	{
-		if (walking)
-		{
+		if (isWalking)
 			walkTime += Time.deltaTime;
-		}
 		else
-		{
 			walkTime = 0f;
-		}
 
 		float theta = walkTime / period;
 		float distance = Mathf.Abs(amplitude * Mathf.Sin(theta));
 
 		if (CheckWalking())
 		{
-			walking = true;
+			isWalking = true;
 
 			transform.localPosition = startPos + Vector3.up * distance;
 
@@ -51,7 +47,7 @@ public class WalkAnimation : MonoBehaviour
 		}
 		else
 		{
-			if (transform.localPosition != startPos && walking)
+			if (transform.localPosition != startPos && isWalking)
 			{
                 Reset();
             }
@@ -60,6 +56,9 @@ public class WalkAnimation : MonoBehaviour
 
     private bool CheckWalking()
     {
+        if (alwaysOn)
+            return true;
+
         if (!kid)
         {
             if (GameManager.instance.levelEnded) return false;
@@ -67,35 +66,22 @@ public class WalkAnimation : MonoBehaviour
             float h = Input.GetAxis("Horizontal");
             float v = Input.GetAxis("Vertical");
 
-            if (h != 0 || v != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (h != 0 || v != 0);
         }
         else
         {
             if (kidMovement != null)
             {
-                if (kidMovement.anim)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return (kidMovement.anim);
             }
+            else
+                return false;
         }
-            
-        return true;
     }
+
     public void Reset()
     {
-        walking = false;
+        isWalking = false;
 
         transform.ZKlocalRotationTo(Quaternion.identity, .1f)
             .setEaseType(EaseType.SineInOut)
