@@ -1,14 +1,22 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(AudioSource))]
 public class PlayerInventory : MonoBehaviour
 {
     public Transform slot0, slot1, slot2, slot3;
     private SpriteRenderer rSlot0, rSlot1, rSlot2, rSlot3;
     public int[] slotId = { -1, -1, -1, -1 };
     public Pickup thisPickup = null;
-    public float stackOffset;
+    private float stackOffset;
     private Transform character;
+    public float stackSpacing = .02f;
+    public float stackBounce = 1.5f;
+    public Transform particle;
+    private ParticleSystem ps = null;
+    AudioSource a;
+    public AudioClip pickupSound;
+    public AudioClip tossSound;
 
     private bool levelEndToss = false;
 
@@ -25,12 +33,19 @@ public class PlayerInventory : MonoBehaviour
         rSlot1 = slot1.GetComponent<SpriteRenderer>();
         rSlot2 = slot2.GetComponent<SpriteRenderer>();
         rSlot3 = slot3.GetComponent<SpriteRenderer>();
-	}
+
+        a = GetComponent<AudioSource>();
+
+        if (particle != null)
+        {
+            ps = particle.GetComponent<ParticleSystem>();
+        }
+    }
 
     void Update()
     {
         //make inventory stack bounce with character
-        stackOffset = .02f + (character.localPosition.y / 1.5f);
+        stackOffset = stackSpacing + (character.localPosition.y / stackBounce);
 
         //adjust inventory slot positions based on sprites being used
         SetSlotTransforms();
@@ -66,6 +81,9 @@ public class PlayerInventory : MonoBehaviour
         {
             slotId[0] = id;
             SetSprite(slot0, slotId[0]);
+
+            //play sound
+            PlayPickupSound();
         }
         //check is slot 1 empty
         else if (slotId[1] < 0)
@@ -76,6 +94,9 @@ public class PlayerInventory : MonoBehaviour
             //and slot 0 to id
             slotId[0] = id;
             SetSprite(slot0, slotId[0]);
+
+            //play sound
+            PlayPickupSound();
         }
         //else check if slot 2 empty
         else if (slotId[2] < 0)
@@ -89,6 +110,9 @@ public class PlayerInventory : MonoBehaviour
             //and slot 0 to id
             slotId[0] = id;
             SetSprite(slot0, slotId[0]);
+
+            //play sound
+            PlayPickupSound();
         }
         //else check if slot 3 empty
         else if (slotId[3] < 0)
@@ -105,6 +129,9 @@ public class PlayerInventory : MonoBehaviour
             //and slot 0 to id
             slotId[0] = id;
             SetSprite(slot0, slotId[0]);
+
+            //play sound
+            PlayPickupSound();
         }
     }
 
@@ -164,6 +191,18 @@ public class PlayerInventory : MonoBehaviour
 
     void TossAll()
     {
+        // do particle + score
+        if (ps != null)
+        {
+            if (slotId[0] != -1)
+            {
+                ps.Play();
+                PlayTossSound();
+                GameManager.instance.throws += 1;
+            }
+        }
+
+        // toss!
         if (slotId[0] != -1)
         {
             Toss(slot0, slotId[0]);
@@ -253,5 +292,22 @@ public class PlayerInventory : MonoBehaviour
                 slot2.localPosition.y + (((s2.bounds.extents.y * slot2.localScale.y) * 2)) + stackOffset,
                 slot3.localPosition.z);
         }
+    }
+
+    void PlayPickupSound()
+    {
+        //play pickup sound
+        a.clip = pickupSound;
+        a.pitch = Random.Range(0.8f, 1.2f);
+        a.loop = false;
+        a.Play();
+    }
+
+    void PlayTossSound()
+    {
+        //play toss sound
+        a.clip = tossSound;
+        a.loop = false;
+        a.Play();
     }
 }

@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public int apples = 0;
     public int mushrooms = 0;
     public int hedgehogs = 0;
+    public int throws = 0;
     public int totalScore;
 
     void Awake()
@@ -47,10 +48,16 @@ public class GameManager : MonoBehaviour
 
         if (levelEnded)
         {
-            if (Input.GetButtonDown("Y"))
+            if (Input.GetButtonDown("X"))
             {
                 ZestKit.removeAllTweensOnLevelLoad = true;
                 SceneManager.LoadScene(0);
+            }
+
+            if (Input.GetButtonDown("Y"))
+            {
+                ZestKit.removeAllTweensOnLevelLoad = true;
+                SceneManager.LoadScene(1);
             }
         }
     }
@@ -58,9 +65,10 @@ public class GameManager : MonoBehaviour
     void CalculateScore ()
     {
         int total = 0;
-        total += apples * 1;
-        total += mushrooms * 3;
-        total += hedgehogs * 5;
+        total += apples * 25;
+        total += mushrooms * 25;
+        total += hedgehogs * 25;
+        total += throws * 10;
         totalScore = total;
     }
 

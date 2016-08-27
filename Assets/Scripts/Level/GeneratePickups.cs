@@ -5,11 +5,11 @@ public class GeneratePickups : MonoBehaviour {
 
     public GameObject apple, mushroom, hedgehog;
 
-    public int numberOfApples = 10;
-    public int numberOfMushrooms = 7;
-    public int numberOfHedgehogs = 3;
+    public int numberOfApples = 2;
+    public int numberOfMushrooms = 2;
+    public int numberOfHedgehogs = 2;
 
-    private bool genLastWave = true;
+    public bool genLastWave = true;
 
     private int lastAppleCount = 0;
     private int lastMushroomCount = 0;
@@ -25,28 +25,28 @@ public class GeneratePickups : MonoBehaviour {
     void Update ()
     {
         
-        if (GameManager.instance.apples >= lastAppleCount + 5)
+        if (GameManager.instance.apples >= lastAppleCount + 4)
         {
             lastAppleCount = GameManager.instance.apples;
-            GenApples(numberOfApples);
+            GenApples(numberOfApples - 1);
         }
 
-        if (GameManager.instance.mushrooms >= lastMushroomCount + 5)
+        if (GameManager.instance.mushrooms >= lastMushroomCount + 4)
         {
             lastMushroomCount = GameManager.instance.mushrooms;
-            GenMushrooms(numberOfMushrooms);
+            GenMushrooms(numberOfMushrooms - 1);
         }
-        if (GameManager.instance.hedgehogs >= lastHedgehogCount + 2)
+        if (GameManager.instance.hedgehogs >= lastHedgehogCount + 4)
         {
             lastHedgehogCount = GameManager.instance.hedgehogs;
-            GenHedgehogs(numberOfHedgehogs);
+            GenHedgehogs(numberOfHedgehogs - 1);
         }
         if (GameManager.instance.timeLeft <= 10 && genLastWave)
         {
             genLastWave = false;
-            GenApples(5);
-            GenMushrooms(10);
-            GenHedgehogs(5);
+            GenApples(numberOfApples);
+            GenMushrooms(numberOfMushrooms);
+            GenHedgehogs(numberOfHedgehogs);
         }
     }
 

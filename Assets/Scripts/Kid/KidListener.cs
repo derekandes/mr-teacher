@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Prime31.ZestKit;
 
+[RequireComponent(typeof(AudioSource))]
 public class KidListener : MonoBehaviour
 {
     private Transform player;
@@ -13,12 +14,17 @@ public class KidListener : MonoBehaviour
     private KidInventory kidInventory;
     private KidMovement kidMovement;
 
-	void Awake ()
+    AudioSource a;
+    public AudioClip feedbackSound;
+    public bool doingFeedback = false;
+
+    void Awake ()
 	{
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerInventory = player.GetComponent<PlayerInventory>();
         kidInventory = GetComponent<KidInventory>();
         kidMovement = GetComponent<KidMovement>();
+        a = GetComponent<AudioSource>();
     }
 
 	void Update ()
@@ -61,15 +67,33 @@ public class KidListener : MonoBehaviour
     //visual feedback for interaction
     void Feedback()
     {
+        //tell face to do feedback
+        StartCoroutine(DoFaceFeedback());
+
         //stop any current tween (includes kid movement, which will be restarted on complete)
         ZestKit.instance.stopAllTweensWithTarget(gameObject.transform);
 
         //do scale "pop"
         Vector3 theScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
-        transform.localScale = new Vector3(theScale.x, .7f, theScale.z);
+        transform.localScale = new Vector3(theScale.x, .25f, theScale.z);
         transform.ZKlocalScaleTo(theScale, 1f)
             .setEaseType(EaseType.ElasticOut)
             .setCompletionHandler(t => kidMovement.DecideMovementDelay())
             .start();
+
+        //play sound
+        a.pitch = Random.Range(.8f, 1.3f);
+        a.clip = feedbackSound;
+        a.loop = false;
+        a.Play();
+    }
+
+    //tell face to do feedback
+    IEnumerator DoFaceFeedback()
+    {
+        doingFeedback = true;
+        yield return new WaitForSeconds(2);
+
+        doingFeedback = false;
     }
 }

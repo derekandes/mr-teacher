@@ -8,10 +8,12 @@ public class FaceSwap : MonoBehaviour
     private SpriteRenderer face;
 
     private WalkAnimation walkAnim;
+    private KidListener kidListener;
 
-	void Start ()
+	void Awake ()
     {
         walkAnim = GetComponentInParent<WalkAnimation>();
+        kidListener = GetComponentInParent<KidListener>();
         face = GetComponent<SpriteRenderer>();
         face.sprite = idleFace;
 	}
@@ -19,6 +21,10 @@ public class FaceSwap : MonoBehaviour
 	void Update ()
     {
         if (walkAnim.isWalking)
+        {
+            face.sprite = movingFace;
+        }
+        else if (kidListener != null && kidListener.doingFeedback)
         {
             face.sprite = movingFace;
         }

@@ -6,6 +6,8 @@ public class KidInventory : MonoBehaviour
     public int wearableId; //-1 if not wearing anything;
     private Transform wearable;
     private SpriteRenderer wearableSprite;
+    public Transform particle;
+    private ParticleSystem ps = null;
 
     public int inventory = 0;
 
@@ -16,6 +18,11 @@ public class KidInventory : MonoBehaviour
         wearableId = -1;
         wearable = transform.Find("Character/Wearable");
         wearableSprite = wearable.GetComponent<SpriteRenderer>();
+
+        if (particle != null)
+        {
+            ps = particle.GetComponent<ParticleSystem>();
+        }
     }
 
     //wear pickup with id
@@ -46,6 +53,11 @@ public class KidInventory : MonoBehaviour
     //add to inventory amount
     public void Add(int id, int amount)
     {
+        if (ps != null)
+        {
+            ps.Play();
+        }
+
         inventory += amount;
         if (id == 0) GameManager.instance.apples += 1;
         if (id == 1) GameManager.instance.mushrooms += 1;

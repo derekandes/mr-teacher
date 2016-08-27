@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
         //GET INPUT AXIS
         float h = Input.GetAxis("Horizontal") * speed;
         float v = Input.GetAxis("Vertical") * speed;
-        
 
         //CHECK DIRECTION AND FLIP X SCALE IF NEEDED (THANKS HUBOL)
         if (Mathf.Sign(h) != Mathf.Sign(transform.localScale.x) && h != 0)
